@@ -1,26 +1,65 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+:root { --ink: #102a2c; --paper: #f6f4ed; --white: #fffefa; --sage: #b9d7c0; --green: #176b4d; --line: #d8d9cf; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.site-header { height: 84px; padding: 0 5vw; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 800; letter-spacing: .22em; }
+.brand-mark { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid var(--ink); border-radius: 50%; font-family: Georgia, serif; font-style: italic; letter-spacing: 0; }
+nav { display: flex; align-items: center; gap: 32px; }
+nav a, .nav-link { color: var(--ink); text-decoration: none; font-size: 13px; background: none; border: 0; cursor: pointer; }
+.outline-button { padding: 10px 19px; color: var(--ink); background: transparent; border: 1px solid var(--ink); border-radius: 2px; cursor: pointer; transition: .2s; }
+.outline-button:hover { color: var(--paper); background: var(--ink); }
+.hero { min-height: 620px; padding: 92px 5vw 76px; display: flex; flex-direction: column; align-items: center; text-align: center; background: radial-gradient(circle at 17% 62%, rgba(185,215,192,.33), transparent 20%), radial-gradient(circle at 84% 18%, rgba(185,215,192,.25), transparent 18%); }
+.eyebrow, .section-label { font-size: 11px; font-weight: 800; letter-spacing: .2em; }
+.eyebrow { display: flex; align-items: center; gap: 10px; }
+.eyebrow span { width: 23px; height: 1px; background: var(--green); }
+h1 { margin: 25px 0 20px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(58px, 8vw, 108px); line-height: .86; font-weight: 400; letter-spacing: -.055em; }
+h1 em { color: var(--green); font-weight: 400; }
+.hero > p { max-width: 580px; margin: 0 0 38px; color: #526465; font-family: Georgia, serif; font-size: 18px; line-height: 1.6; }
+.search-box { width: min(850px, 100%); min-height: 76px; padding: 9px 10px 9px 25px; display: flex; align-items: center; gap: 18px; background: var(--white); border: 1px solid #c9cdc4; box-shadow: 0 18px 45px rgba(16,42,44,.08); }
+.search-box svg { width: 22px; fill: none; stroke: var(--ink); stroke-width: 1.7; }
+.search-box input { flex: 1; min-width: 80px; font-family: Georgia, serif; font-size: 18px; background: transparent; border: 0; outline: 0; color: var(--ink); }
+.search-box input::placeholder { color: #8a948f; }
+.search-box button, .primary-button { height: 56px; padding: 0 25px; color: white; background: var(--ink); border: 0; cursor: pointer; font-weight: 700; }
+.search-box button span { margin-left: 25px; }
+.search-box button:disabled, .primary-button:disabled { opacity: .55; cursor: not-allowed; }
+.search-options { width: min(850px, 100%); display: grid; grid-template-columns: 2fr 1fr 1fr; text-align: left; border: solid var(--line); border-width: 0 1px 1px; background: rgba(255,254,250,.5); }
+.search-options label { padding: 10px 14px; color: #6d7a77; font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; border-right: 1px solid var(--line); }
+.search-options label:last-child { border: 0; }
+.search-options input, .search-options select { width: 100%; display: block; margin-top: 4px; padding: 0; color: var(--ink); font-size: 12px; text-transform: none; background: transparent; border: 0; outline: none; }
+.session-note { margin-top: 18px !important; font-family: Arial, sans-serif !important; font-size: 11px !important; color: #75817e !important; }
+.message { margin-top: 14px; padding: 10px 15px; background: #e8eee7; color: var(--green); font-size: 13px; }
+.results-section, .history-section { padding: 85px max(5vw, calc((100vw - 1120px) / 2)); background: var(--white); }
+.results-heading { display: flex; justify-content: space-between; align-items: end; padding-bottom: 28px; border-bottom: 1px solid var(--ink); }
+.results-heading h2, .auth-card h2 { margin: 12px 0 0; font-family: Georgia, serif; font-size: clamp(30px, 4vw, 48px); font-weight: 400; letter-spacing: -.03em; }
+.results-heading p { color: #6c7976; font-size: 12px; }
+.result-card { position: relative; display: grid; grid-template-columns: 56px 1fr 40px; gap: 22px; padding: 31px 0; border-bottom: 1px solid var(--line); }
+.result-number { padding-top: 4px; color: #87938e; font-family: Georgia, serif; font-size: 13px; font-style: italic; }
+.result-source { margin: 0 0 7px; color: var(--green); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.result-card h3 { margin: 0 0 10px; font-family: Georgia, serif; font-size: 24px; font-weight: 400; }
+.result-card h3 a { color: var(--ink); text-decoration: none; }
+.result-card h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.result-card div > p:last-child { max-width: 760px; margin: 0; color: #5b6b68; font-size: 14px; line-height: 1.65; }
+.result-arrow { color: var(--ink); text-decoration: none; font-size: 21px; }
+.empty-state { padding: 50px 0; color: #667572; }
+.history-section { padding-top: 0; }
+.history-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.history-row button { padding: 13px 16px; color: var(--ink); background: transparent; border: 1px solid var(--line); cursor: pointer; }
+.history-row span { margin-left: 20px; color: var(--green); }
+footer { min-height: 150px; padding: 45px 5vw; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; border-top: 1px solid var(--line); }
+footer p, footer > span { color: #6c7976; font-size: 11px; }
+footer p { text-align: center; } footer > span { text-align: right; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(9,27,29,.62); backdrop-filter: blur(7px); }
+.auth-card { position: relative; width: min(480px, 100%); padding: 48px; background: var(--paper); box-shadow: 0 30px 80px rgba(0,0,0,.25); }
+.auth-card > p { color: #61706d; line-height: 1.55; }
+.auth-card form { display: grid; gap: 18px; margin-top: 30px; }
+.auth-card label { font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.auth-card input { width: 100%; margin-top: 8px; padding: 14px 2px; background: transparent; border: solid var(--line); border-width: 0 0 1px; outline: none; text-transform: none; }
+.primary-button { width: 100%; margin-top: 8px; }
+.close-button { position: absolute; top: 17px; right: 20px; font-size: 27px; background: none; border: 0; cursor: pointer; }
+.mode-switch { width: 100%; margin-top: 20px; color: var(--green); background: none; border: 0; cursor: pointer; font-size: 12px; }
+@media (max-width: 680px) { .site-header { height: 70px; } nav { gap: 14px; } nav a, .nav-link { display: none; } .hero { padding-top: 70px; min-height: 590px; } .search-box { padding-left: 16px; gap: 10px; } .search-box button { padding: 0 16px; } .search-box button span { display: none; } .search-options { grid-template-columns: 1fr 1fr; } .search-options label:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--line); } .results-heading p { display: none; } .result-card { grid-template-columns: 32px 1fr; gap: 10px; } .result-arrow { display: none; } footer { grid-template-columns: 1fr; gap: 20px; text-align: center; } footer .brand { justify-content: center; } footer p, footer > span { margin: 0; text-align: center; } .auth-card { padding: 40px 25px 28px; } }
