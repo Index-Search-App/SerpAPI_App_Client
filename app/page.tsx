@@ -137,9 +137,9 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <div className="eyebrow"><span /> SEARCH, WITHOUT THE NOISE</div>
+        <div className="eyebrow"> SEARCH, WITHOUT THE NOISE</div>
         <h1>Find what matters.<br /><em>Faster.</em></h1>
-        <p>Focused Google results, shaped around your location and language. No distractions—just the answers you came for.</p>
+        <p>Focused Google results, shaped around your location and language. No distractions, just the answers you came for.</p>
         <form className="search-box" id="search" onSubmit={search}>
           <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
           <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="What are you looking for?" aria-label="Search query" />
