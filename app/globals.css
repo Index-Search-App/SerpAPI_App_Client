@@ -8,6 +8,7 @@ button, input, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 .site-header { height: 84px; padding: 0 5vw; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 800; letter-spacing: .22em; }
+.site-header .brand { font-size: 25px; }
 .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid var(--ink); border-radius: 50%; font-family: Georgia, serif; font-style: italic; letter-spacing: 0; }
 nav { display: flex; align-items: center; gap: 32px; }
 nav a, .nav-link { color: var(--ink); text-decoration: none; font-size: 13px; background: none; border: 0; cursor: pointer; }
