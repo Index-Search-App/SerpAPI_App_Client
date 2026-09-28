@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3080";
 
@@ -150,9 +151,9 @@ export default function Home() {
         <nav>
           <a href="#search">Search</a>
           {token && (
-            <button className="nav-link" onClick={() => void loadHistory()}>
+            <Link className="nav-link" href="/history">
               History
-            </button>
+            </Link>
           )}
           {token ? (
             <button className="outline-button" onClick={signOut}>
