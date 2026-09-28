@@ -3,15 +3,18 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3080";
 
 type HistoryItem = { id: number; search_string: string };
 
 export default function HistoryPage() {
+  const router = useRouter();
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -19,8 +22,7 @@ export default function HistoryPage() {
     async function loadHistory() {
       const token = window.localStorage.getItem("serp_token");
       if (!token) {
-        setMessage("Sign in from the search page to view your search history.");
-        setLoading(false);
+        router.replace("/");
         return;
       }
 
@@ -29,14 +31,21 @@ export default function HistoryPage() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json().catch(() => null);
+        if (response.status === 401 || response.status === 403) {
+          window.localStorage.removeItem("serp_token");
+          router.replace("/");
+          return;
+        }
         if (!response.ok) {
           throw new Error("Could not load your search history.");
         }
         if (!cancelled) {
           setHistory(Array.isArray(data) ? (data as HistoryItem[]) : []);
+          setAuthorized(true);
         }
       } catch (error) {
         if (!cancelled) {
+          setAuthorized(true);
           setMessage(
             error instanceof Error
               ? error.message
@@ -52,7 +61,9 @@ export default function HistoryPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [router]);
+
+  if (!authorized) return null;
 
   return (
     <main>

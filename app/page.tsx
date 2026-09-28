@@ -192,9 +192,15 @@ export default function Home() {
             placeholder="What are you looking for?"
             aria-label="Search query"
           />
-          <button disabled={loading || !query.trim()}>
-            {loading ? "Searching…" : "Search"}
-            <span>→</span>
+          <button
+            aria-label={loading ? "Searching" : "Search"}
+            title={loading ? "Searching" : "Search"}
+            disabled={loading || !query.trim()}
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
           </button>
         </form>
         <div className="search-options">
