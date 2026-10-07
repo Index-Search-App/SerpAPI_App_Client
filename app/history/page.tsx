@@ -98,7 +98,8 @@ export default function HistoryPage() {
         </div>
 
         {loading && (
-          <p className="history-status" role="status">
+          <p className="history-status history-loading" role="status">
+            <span className="search-spinner" aria-hidden="true" />
             Loading your search history…
           </p>
         )}

@@ -49,6 +49,8 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
@@ -91,7 +93,7 @@ export default function Home() {
 
   async function authenticate(event: FormEvent) {
     event.preventDefault();
-    setLoading(true);
+    setAuthLoading(true);
     setMessage("");
     try {
       const data = await apiRequest<{ access_token: string; status: string }>(
@@ -111,12 +113,13 @@ export default function Home() {
         error instanceof Error ? error.message : "Authentication failed.",
       );
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   }
 
   async function loadHistory(activeToken = token) {
     if (!activeToken) return;
+    setHistoryLoading(true);
     try {
       const data = await apiRequest<HistoryItem[]>("/client/getSearchHistory", {
         headers: { Authorization: `Bearer ${activeToken}` },
@@ -124,6 +127,8 @@ export default function Home() {
       setHistory(data);
     } catch {
       setHistory([]);
+    } finally {
+      setHistoryLoading(false);
     }
   }
 
@@ -197,10 +202,14 @@ export default function Home() {
             title={loading ? "Searching" : "Search"}
             disabled={loading || !query.trim()}
           >
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
+            {loading ? (
+              <span className="search-spinner" aria-hidden="true" />
+            ) : (
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            )}
           </button>
         </form>
         <div className="search-options">
@@ -263,6 +272,12 @@ export default function Home() {
               </p>
             )}
           </div>
+          {loading && (
+            <div className="results-loading" role="status" aria-live="polite">
+              <span className="search-spinner" aria-hidden="true" />
+              <span>Searching the web for relevant results…</span>
+            </div>
+          )}
           <div className="results-list">
             {organicResults.map((result, index) => (
               <article className="result-card" key={`${result.link}-${index}`}>
@@ -300,9 +315,15 @@ export default function Home() {
         </section>
       )}
 
-      {token && history.length > 0 && (
+      {token && (historyLoading || history.length > 0) && (
         <section className="history-section">
           <span className="section-label">RECENT SEARCHES</span>
+          {historyLoading && (
+            <p className="history-loading" role="status" aria-live="polite">
+              <span className="search-spinner" aria-hidden="true" />
+              Loading your search history…
+            </p>
+          )}
           <div className="history-row">
             {history.slice(0, 6).map((item) => (
               <button
@@ -379,9 +400,14 @@ export default function Home() {
                   required
                 />
               </label>
-              <button className="primary-button" disabled={loading}>
-                {loading
-                  ? "Please wait…"
+              <button className="primary-button" disabled={authLoading}>
+                {authLoading && (
+                  <span className="search-spinner" aria-hidden="true" />
+                )}
+                {authLoading
+                  ? authMode === "login"
+                    ? "Signing in…"
+                    : "Creating account…"
                   : authMode === "login"
                     ? "Sign in"
                     : "Create account"}
