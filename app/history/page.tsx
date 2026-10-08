@@ -37,7 +37,7 @@ export default function HistoryPage() {
           return;
         }
         if (!response.ok) {
-          throw new Error("Could not load your search history.");
+          throw new Error("Empty search history.");
         }
         if (!cancelled) {
           setHistory(Array.isArray(data) ? (data as HistoryItem[]) : []);
@@ -49,7 +49,7 @@ export default function HistoryPage() {
           setMessage(
             error instanceof Error
               ? error.message
-              : "Could not load your search history.",
+              : "Empty history.",
           );
         }
       } finally {
